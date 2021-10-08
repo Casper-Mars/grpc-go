@@ -77,8 +77,8 @@ func generateFileContent(gen *protogen.Plugin, file *protogen.File, g *protogen.
 
 	g.P("// This is a compile-time assertion to ensure that this generated file")
 	g.P("// is compatible with the grpc package it is being compiled against.")
-	g.P("// Requires gRPC-Go v1.32.0 or later.")
-	g.P("const _ = ", grpcPackage.Ident("SupportPackageIsVersion7")) // When changing, update version number above.
+	g.P("// Requires gRPC-Go v1.26.0 or later.")
+	g.P("const _ = ", grpcPackage.Ident("SupportPackageIsVersion4")) // When changing, update version number above.
 	g.P()
 	for _, service := range file.Services {
 		genService(gen, file, g, service)
@@ -112,7 +112,7 @@ func genService(gen *protogen.Plugin, file *protogen.File, g *protogen.Generated
 
 	// Client structure.
 	g.P("type ", unexport(clientName), " struct {")
-	g.P("cc ", grpcPackage.Ident("ClientConnInterface"))
+	g.P("cc *", grpcPackage.Ident("ClientConn"))
 	g.P("}")
 	g.P()
 
@@ -120,7 +120,7 @@ func genService(gen *protogen.Plugin, file *protogen.File, g *protogen.Generated
 	if service.Desc.Options().(*descriptorpb.ServiceOptions).GetDeprecated() {
 		g.P(deprecationComment)
 	}
-	g.P("func New", clientName, " (cc ", grpcPackage.Ident("ClientConnInterface"), ") ", clientName, " {")
+	g.P("func New", clientName, " (cc *", grpcPackage.Ident("ClientConn"), ") ", clientName, " {")
 	g.P("return &", unexport(clientName), "{cc}")
 	g.P("}")
 	g.P()
