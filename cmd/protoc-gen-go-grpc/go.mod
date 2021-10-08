@@ -1,4 +1,4 @@
-module github.com/Casper-Mars/grpc/cmd/protoc-gen-go-grpc
+module github.com/Casper-Mars/grpc-go/cmd/protoc-gen-go-grpc
 
 go 1.9
 
